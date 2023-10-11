@@ -40,6 +40,32 @@ fn algo3(in_vec: Vec<&str>, que_vec: Vec<&str>) {
     println!("{}\n", output)
 }
 
+fn algo4(matrix: Vec<[u8; 3]>) -> u8 {
+    let num_rows = matrix.len();
+    let num_columns = matrix[0].len();
+    let mut d1: u8 = 0;
+    let mut d2: u8 = 0;
+
+    for i in 0..num_rows {
+        for j in 0..num_columns {
+            if i == j {
+                d1 = d1 + matrix[i][j];
+                if j == matrix.len() - 1 - i {
+                    d2 = d2 + matrix[i][j];
+                }
+            } else if j == matrix.len() - 1 - i {
+                d2 = d2 + matrix[i][j];
+            }
+        }
+    }
+
+    println!("diagonal pertama: {}", d1);
+    println!("diagonal kedua: {}", d2);
+    let result = d1 - d2;
+
+    return result;
+}
+
 fn main() {
     //Soal 1
     let my_string = String::from("NEGIE1");
@@ -62,4 +88,9 @@ fn main() {
     let in_vec = vec!["xc", "dz", "bbb", "dz"];
     let que_vec = vec!["bbb", "ac", "dz"];
     algo3(in_vec, que_vec);
+
+    // Soal 4
+    let matrix = vec![[1, 2, 0], [4, 5, 6], [7, 8, 9]];
+    let result = algo4(matrix);
+    println!("hasil: {}\n", result);
 }
