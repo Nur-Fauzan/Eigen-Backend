@@ -16,10 +16,28 @@ fn algo2(in_string: &str) {
     let words: Vec<&str> = in_string.split_whitespace().collect();
 
     if let Some(max_length_str) = words.iter().max_by_key(|&s| s.len()) {
-        println!("{}: {} character", max_length_str, max_length_str.len());
+        println!("{}: {} character\n", max_length_str, max_length_str.len());
     } else {
-        println!("The collection is empty.");
+        println!("The collection is empty.\n");
     }
+}
+
+fn algo3(in_vec: Vec<&str>, que_vec: Vec<&str>) {
+    let mut out_vec = vec![];
+
+    for words in que_vec {
+        let count = in_vec.iter().filter(|&&x| x == words).count();
+        out_vec.push(count)
+    }
+    let output = format!(
+        "[{}]",
+        out_vec
+            .iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<String>>()
+            .join(", ")
+    );
+    println!("{}\n", output)
 }
 
 fn main() {
@@ -39,4 +57,9 @@ fn main() {
         .expect("Failed to read line");
 
     algo2(&in_string);
+
+    // Soal 3
+    let in_vec = vec!["xc", "dz", "bbb", "dz"];
+    let que_vec = vec!["bbb", "ac", "dz"];
+    algo3(in_vec, que_vec);
 }
