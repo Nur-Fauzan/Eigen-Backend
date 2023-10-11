@@ -1,6 +1,7 @@
-use std::io;
+use std::{io, process};
 
 fn algo1(input_string: &str) -> Option<String> {
+    println!("Input string: {}", input_string);
     let my_vec: Vec<char> = input_string.chars().collect();
     if let Some(index) = my_vec.iter().position(|&x| x.is_numeric()) {
         let reversed_chars: String = my_vec[0..index].iter().rev().collect();
@@ -67,30 +68,72 @@ fn algo4(matrix: Vec<[u8; 3]>) -> u8 {
 }
 
 fn main() {
-    //Soal 1
-    let my_string = String::from("NEGIE1");
-    if let Some(result) = algo1(&my_string) {
-        println!("{}", result);
-    } else {
-        println!("The string does not contain any numbers.");
+    loop {
+        println!("Please enter a number between 1 and 4 to choose questions: ");
+
+        let mut pilihan = String::new();
+        io::stdin()
+            .read_line(&mut pilihan)
+            .expect("Failed to read line");
+
+        let pilihan = match pilihan.trim().parse::<i32>() {
+            Ok(num) => num,
+            Err(_) => {
+                println!("Invalid. Please enter a number between 1 and 4.");
+                continue;
+            }
+        };
+
+        if (1..=4).contains(&pilihan) {
+            loop {
+                if pilihan == 1 {
+                    //Soal 1
+                    let my_string = String::from("NEGIE1");
+                    if let Some(result) = algo1(&my_string) {
+                        println!("Output string: {}", result);
+                    } else {
+                        println!("The string does not contain any numbers.");
+                    }
+                } else if pilihan == 2 {
+                    println!("Please input some sentence");
+                    //Soal 2
+                    let mut in_string = String::new();
+
+                    io::stdin()
+                        .read_line(&mut in_string)
+                        .expect("Failed to read line");
+
+                    algo2(&in_string);
+                } else if pilihan == 3 {
+                    // Soal 3
+                    let in_vec = vec!["xc", "dz", "bbb", "dz"];
+                    let que_vec = vec!["bbb", "ac", "dz"];
+                    algo3(in_vec, que_vec);
+                } else {
+                    // Soal 4
+                    let matrix = vec![[1, 2, 0], [4, 5, 6], [7, 8, 9]];
+                    let result = algo4(matrix);
+                    println!("hasil: {}\n", result);
+                }
+                println!("Try another question? (y/n)");
+                let mut anot = String::new();
+                io::stdin()
+                    .read_line(&mut anot)
+                    .expect("Failed to read line");
+
+                // Trim whitespace and convert to lowercase
+                let anot = anot.trim().to_lowercase();
+                if anot == "y" {
+                    break;
+                } else if anot == "n" {
+                    process::exit(0);
+                } else {
+                    println!("Invalid input. Please enter 'y' for yes or 'n' for no.");
+                }
+            }
+            // break;
+        } else {
+            println!("Input out of range. Please enter a number between 1 and 4.");
+        }
     }
-
-    //Soal 2
-    let mut in_string = String::new();
-
-    io::stdin()
-        .read_line(&mut in_string)
-        .expect("Failed to read line");
-
-    algo2(&in_string);
-
-    // Soal 3
-    let in_vec = vec!["xc", "dz", "bbb", "dz"];
-    let que_vec = vec!["bbb", "ac", "dz"];
-    algo3(in_vec, que_vec);
-
-    // Soal 4
-    let matrix = vec![[1, 2, 0], [4, 5, 6], [7, 8, 9]];
-    let result = algo4(matrix);
-    println!("hasil: {}\n", result);
 }
